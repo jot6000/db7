@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import logo from './images/holy-bible.png';
+import generateVerse from './features/helpers/bibleVerses';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const verse = useState('')
+
+  const getverse=()=>{
+    fetch(`https://bible-api.com/${generateVerse()}`)
+    .then(response => response.json)
+    .then(data => setverse(`${data.text} -${data.reference}`))
+  }
+
+  useEffect(()=>{
+    getverse()
+  },[])
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <br/>
+        <br/>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {verse}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={()=>getverse}>New Verse</button>
       </header>
     </div>
   );
 }
 
-export default App;
+export default Ap;
